@@ -1,5 +1,6 @@
 from fastapi import FastAPI, WebSocket
 from component.processor import *
+import os
 
 app = FastAPI()
 
@@ -36,3 +37,11 @@ async def websocket_endpoint(websocket: WebSocket):
     finally:
         # 从列表中移除关闭的连接
         websocket_connections.remove(websocket)
+
+
+if __name__ == '__main__':
+    svc_port = os.getenv("SVC_PORT", 8000)
+
+    import uvicorn
+
+    uvicorn.run(app, host='0.0.0.0', port=svc_port)
